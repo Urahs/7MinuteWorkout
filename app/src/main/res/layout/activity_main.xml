@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="START"
-            android:textColor="@color/start_button"
+            android:textColor="@color/primary_color"
             android:textSize="22sp"
             android:textStyle="bold"/>
 

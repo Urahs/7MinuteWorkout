@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ExerciseActivity">
+    tools:context=".ExerciseActivity"
+    android:id="@+id/layout">
 
     <androidx.appcompat.widget.Toolbar
         app:layout_constraintTop_toTopOf="parent"
@@ -26,17 +27,28 @@
         android:layout_marginBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageIV"
         app:layout_constraintBottom_toTopOf="@id/flProgressBar"/>
+
+    <ImageView
+        android:id="@+id/imageIV"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_jumping_jacks"
+        app:layout_constraintBottom_toTopOf="@id/tvTitle"
+        app:layout_constraintTop_toBottomOf="@id/toolBarExercise"/>
     
     <FrameLayout
         android:id="@+id/flProgressBar"
         android:layout_width="100dp"
+        android:layout_marginBottom="80dp"
         android:layout_height="100dp"
         android:background="@drawable/item_circular_color_accent_border"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/exerciseStatus"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolBarExercise">
+        app:layout_constraintTop_toBottomOf="@id/tvTitle">
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -71,6 +83,30 @@
 
     </FrameLayout>
 
-    
+    <TextView
+        android:id="@+id/upcomingExerciseTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#66000000"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/flProgressBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Jump Exercise"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/exerciseStatus"
+        android:layout_margin="5dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/flProgressBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

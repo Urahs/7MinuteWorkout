@@ -31,8 +31,8 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private var exerciseAdapter: ExerciseStatusAdapter? = null
 
-    val restTime = 10
-    val exerciseTime = 30
+    val restTime = 1
+    val exerciseTime = 1
     var resting = true
 
 
@@ -106,7 +106,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 binding.upcomingExerciseTV.text = "Upcoming Exercise:\n" + exerciseList!![currentExercisePos].getName()
 
                 player?.start()
-                speakOut("Please rest for 10 seconds")
+                speakOut("Rest for 10 seconds")
                 setUp(restTime, "Get Ready!")
 
             } catch (e:java.lang.Exception){

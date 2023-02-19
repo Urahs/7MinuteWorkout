@@ -1,5 +1,7 @@
 package com.example.a7minuteworkout
 
+import android.app.Dialog
+import android.content.Intent
 import android.media.MediaPlayer
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +13,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintSet
 import com.example.a7minuteworkout.databinding.ActivityExerciseBinding
+import com.example.a7minuteworkout.databinding.DialogCustomBackConfirmationBinding
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -42,7 +45,8 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.toolBarExercise.setNavigationOnClickListener{
-            onBackPressed()
+        customDialogForBackButton()
+        //onBackPressed()
         }
 
         exerciseList = Constants.defaultExerciseList()
@@ -52,6 +56,27 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         tts = TextToSpeech(this, this, "")
         createRestSound()
         setUpProgressView()
+    }
+
+    private fun customDialogForBackButton() {
+        val customDialog = Dialog(this)
+        val dialogBinding = DialogCustomBackConfirmationBinding.inflate(layoutInflater)
+        customDialog.setContentView(dialogBinding.root)
+        customDialog.setCanceledOnTouchOutside(false)
+
+        dialogBinding.tvYes.setOnClickListener {
+            this@ExerciseActivity.finish()
+            customDialog.dismiss()
+        }
+        dialogBinding.tvNo.setOnClickListener {
+            customDialog.dismiss()
+        }
+
+        customDialog.show()
+    }
+
+    override fun onBackPressed() {
+        customDialogForBackButton()
     }
 
     private fun setUpProgressView(){
@@ -69,19 +94,25 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         }
 
         if(resting){
-            if(currentExercisePos >= 0){
-                exerciseList!![currentExercisePos].setIsSelected(false)
-                exerciseList!![currentExercisePos].setIsCompleted(true)
+            try {
+                if(currentExercisePos >= 0){
+                    exerciseList!![currentExercisePos].setIsSelected(false)
+                    exerciseList!![currentExercisePos].setIsCompleted(true)
 
+                    exerciseAdapter!!.notifyDataSetChanged()
+                }
 
-                exerciseAdapter!!.notifyDataSetChanged()
+                currentExercisePos++
+                binding.upcomingExerciseTV.text = "Upcoming Exercise:\n" + exerciseList!![currentExercisePos].getName()
+
+                player?.start()
+                speakOut("Please rest for 10 seconds")
+                setUp(restTime, "Get Ready!")
+
+            } catch (e:java.lang.Exception){
+                startActivity(Intent(this, FinishActivity::class.java))
+                finish()
             }
-
-            player?.start()
-            speakOut("Please rest for 10 seconds")
-            setUp(restTime, "Get Ready!")
-            currentExercisePos++
-            binding.upcomingExerciseTV.text = "Upcoming Exercise:\n" + exerciseList!![currentExercisePos].getName()
         }
         else{
             exerciseList!![currentExercisePos].setIsSelected(true)
